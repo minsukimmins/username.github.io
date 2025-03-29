@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>불편사항 목록</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 15px;
+            font-size: 24px;
+        }
+        main {
+            margin-top: 20px;
+        }
+        .complaint-box {
+            width: 80%;
+            margin: 10px auto;
+            padding: 10px;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+            text-align: left;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <header>불편사항 목록</header>
+    <main>
+        <h2>이용자들이 작성한 불편사항</h2>
+        <div id="complaints-list"></div>
+        <button onclick="clearComplaints()">모두 삭제</button>
+    </main>
+
+    <script>
+        function loadComplaints() {
+            let complaints = JSON.parse(localStorage.getItem("complaints")) || [];
+            let complaintsList = document.getElementById("complaints-list");
+            complaintsList.innerHTML = "";
+
+            if (complaints.length === 0) {
+                complaintsList.innerHTML = "<p>등록된 불편사항이 없습니다.</p>";
+                return;
+            }
+
+            complaints.forEach((complaint, index) => {
+                let div = document.createElement("div");
+                div.className = "complaint-box";
+                div.innerHTML = `<strong>불편사항 ${index + 1}:</strong><br>${complaint}`;
+                complaintsList.appendChild(div);
+            });
+        }
+
+        function clearComplaints() {
+            if (confirm("모든 불편사항을 삭제하시겠습니까?")) {
+                localStorage.removeItem("complaints");
+                loadComplaints();
+            }
+        }
+
+        window.onload = loadComplaints;
+    </script>
+</body>
+</html>

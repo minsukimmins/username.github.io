@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>엘리베이터 불편사항</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 15px;
+            font-size: 24px;
+        }
+        main {
+            margin-top: 20px;
+        }
+        textarea {
+            width: 80%;
+            height: 150px;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <header>엘리베이터 불편사항</header>
+    <main>
+        <h2>불편한 점을 적어주세요</h2>
+        <textarea id="complaint" placeholder="여기에 내용을 입력하세요..."></textarea><br>
+        <button onclick="submitComplaint()">제출</button>
+    </main>
+
+    <script>
+        function submitComplaint() {
+            let complaint = document.getElementById("complaint").value;
+            if (complaint.trim() === "") {
+                alert("불편사항을 입력해주세요.");
+                return;
+            }
+
+            // 불편사항을 로컬 스토리지에 저장
+            let complaints = JSON.parse(localStorage.getItem("complaints")) || [];
+            complaints.push(complaint);
+            localStorage.setItem("complaints", JSON.stringify(complaints));
+
+            alert("불편사항이 제출되었습니다.");
+            document.getElementById("complaint").value = "";
+        }
+    </script>
+</body>
+</html>
